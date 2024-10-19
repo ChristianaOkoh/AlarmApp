@@ -4,7 +4,7 @@ console.log('testing alarm app');
 
 if ("Notification" in window) {
     Notification.requestPermission().then((permission) => {
-        if (Notification.permission !=="granted") {
+        if (permission !=="granted") {
             alert("please allow notification access");
             location.reload()
         }
@@ -14,11 +14,18 @@ if ("Notification" in window) {
 }
 let timeoutIds = []
 
-// let timeoutIds = JSON.parse(localStorage.getItem('timeoutIds')) || [];
-
-// const saveTimeoutIds = () => {
-//     localStorage.setItem('timeoutIds', JSON.stringify(timeoutIds));
-// };
+// Function to save the reminder to localStorage
+const saveReminderToLocalStorage = (title, description, dateTimeString) => {
+    const reminderData = {
+      title: title,
+      description: description,
+      dateTimeString: dateTimeString,
+    };
+  
+    const savedReminders = JSON.parse(localStorage.getItem('reminders')) || [];
+    savedReminders.push(reminderData);
+    localStorage.setItem('reminders', JSON.stringify(savedReminders));
+};
 
 const scheduleReminder = () => {
     let title = document.getElementById("title").value;
@@ -52,8 +59,18 @@ const scheduleReminder = () => {
 
     console.log('alarm time');
     // console.log(timeoutIds)
+    
+  // Invoking the clearFormFields function
+  clearFormFields();
+};
 
-}
+// Function to clear form fields
+const clearFormFields = () => {
+  document.getElementById('title').value = '';
+  document.getElementById('description').value = '';
+  document.getElementById('date').value = '';
+  document.getElementById('time').value = '';
+};
 
 const addReminder = (title, description, dateTimeString) => {
     const data = {
@@ -89,4 +106,4 @@ const deleteReminder = (button) => {
     timeoutIds.splice(index - 1, 1)
 
     row.remove()
- }
+}
