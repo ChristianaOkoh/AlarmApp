@@ -65,43 +65,6 @@
           </thead>
           <tbody id="reminderTableBody"></tbody>
         </table>
-        <script>
-          function scheduleReminder() {
-            //get field values
-            const title = document.getElementById('title').value;
-            const description = document.getElementById('description').value;
-            const date = document.getElementById('date').value;
-            const time = document.getElementById('time').value;
-
-            //check if fields are filled
-            if (!title || !description || !date || !time) {
-              alert("Please fill in all fields");
-              return;
-            }
-
-            //append the new reminder to the table
-            const tableBody = document.getElementById('reminderTableBody');
-            const newRow = tableBody.insertRow();
-            newRow.innerHTML = `
-              <td>${title}</td>
-              <td>${description}</td>
-              <td>${date} ${time}</td>
-              <td><button onclick="deleteReminder(this)">Delete</button></td>
-            `;
-
-            //clear all form fields
-            document.getElementById('title').value = '';
-            document.getElementById('description').value = '';
-            document.getElementById('date').value = '';
-            document.getElementById('time').value = '';
-          }
-
-          //delete the row when the delete button is clicked
-          function deleteReminder(button) {
-            const row = button.parentElement.parentElement;
-            row.remove();
-          }
-        </script>
       </div>
 
       <audio
