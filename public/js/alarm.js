@@ -1,15 +1,15 @@
 // Ask user to allow notification access
-console.log('loading alarm system...');
+console.log('Loading alarm system...');
 
 if ("Notification" in window) {
-    Notification.requestPermission().then((permission) => {
-        if (permission !== "granted") {
-            alert("Please allow notification access");
-            location.reload();
-        }
-    }).catch((error) => {
-        alert("Error: " + error);
-    });
+  Notification.requestPermission().then((permission) => {
+    if (permission !== "granted") {
+      alert("Please allow notification access");
+      location.reload();
+    }
+  }).catch((error) => {
+    alert("Error: " + error);
+  });
 }
 
 let timeoutIds = [];
@@ -17,9 +17,8 @@ const currentTime = new Date();
 
 // Function to check and schedule notifications for upcoming alarms
 const scheduleNotifications = (alarms) => {
-  alarms.forEach((value, index) => {
-    const alarmTime = new Date(value.dateTimeString);
-
+  alarms.forEach((alarm) => {
+    const alarmTime = new Date(alarm.dateTime);
     if (alarmTime > currentTime) {
       let timeDifference = alarmTime - currentTime;
 
@@ -28,13 +27,10 @@ const scheduleNotifications = (alarms) => {
         document.getElementById("notificationSound").play();
 
         // Trigger browser notification
-        let notification = new Notification(value.title, {
-          body: value.description,
+        new Notification(alarm.title, {
+          body: alarm.description,
           requireInteraction: true,
         });
-
-        // Remove alarm after triggering
-        deleteAlarm(index);
       }, timeDifference);
 
       timeoutIds.push(timeoutId);
@@ -42,39 +38,40 @@ const scheduleNotifications = (alarms) => {
   });
 };
 
-// Load alarms from localStorage
-const activeAlarm = localStorage.getItem("alarm");
-const ul = document.querySelector("#customers");
+// Function to load alarms from the database and display them in the table
+const loadAlarmsFromDatabase = async () => {
+  try {
+    const response = await fetch("http://localhost:4040/api/reminders");
 
-if (activeAlarm) {
-  const alarms = JSON.parse(activeAlarm);
-  console.log(alarms);
+    if (response.ok) {
+      const alarms = await response.json();
+      console.log("Loaded alarms:", alarms);
 
-  alarms.forEach((value, index) => {
-    const alarmTime = new Date(value.dateTimeString);
-    
-    if (alarmTime > currentTime) {
-      const details = document.createElement("tr");
-      details.innerHTML = `
-        <td>${value.title}</td>
-        <td>${value.description}</td>
-        <td id="setTime">${value.dateTimeString}</td>
-      `;
-      ul.append(details);
+      const ul = document.querySelector("#customers");
+
+      alarms.forEach((alarm) => {
+        const alarmTime = new Date(alarm.dateTime);
+
+        if (alarmTime > currentTime) {
+          const details = document.createElement("tr");
+          details.innerHTML = `
+            <td>${alarm.title}</td>
+            <td>${alarm.description}</td>
+            <td>${alarm.dateTime}</td>
+          `;
+          ul.append(details);
+        }
+      });
+
+      // Schedule alarms that are still in the future
+      scheduleNotifications(alarms);
     } else {
-      // Remove expired alarms from localStorage
-      deleteAlarm(index);
+      console.error("Failed to load alarms:", response.statusText);
     }
-  });
-
-  // Schedule alarms that are still in the future
-  scheduleNotifications(alarms);
-}
-
-// Function to delete alarm
-const deleteAlarm = (index) => {
-  const alarms = JSON.parse(localStorage.getItem("alarm")) || [];
-  alarms.splice(index, 1);  // Remove the expired alarm
-  localStorage.setItem("alarm", JSON.stringify(alarms));  // Update localStorage
-  console.log(`Alarm ${index} deleted.`);
+  } catch (error) {
+    console.error("Error loading alarms:", error);
+  }
 };
+
+// Load alarms from the database when the page loads
+document.addEventListener("DOMContentLoaded", loadAlarmsFromDatabase);
