@@ -1,6 +1,9 @@
 // Ask user to allow notification access
 console.log('Loading alarm system...');
 
+// Define the base API URL depending on the environment
+const API_BASE_URL = "https://used-pony-testalarmapp-c5c0b55b.koyeb.app/api";
+
 if ("Notification" in window) {
   Notification.requestPermission().then((permission) => {
     if (permission !== "granted") {
@@ -41,7 +44,7 @@ const scheduleNotifications = (alarms) => {
 // Function to load alarms from the database and display them in the table
 const loadAlarmsFromDatabase = async () => {
   try {
-    const response = await fetch("http://localhost:4040/api/reminders");
+    const response = await fetch("${API_BASE_URL}/api/reminders");
 
     if (response.ok) {
       const alarms = await response.json();
