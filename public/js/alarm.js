@@ -41,7 +41,7 @@ const scheduleNotifications = (alarms) => {
 // Function to load alarms from the database and display them in the table
 const loadAlarmsFromDatabase = async () => {
   try {
-    const response = await fetch("https://used-pony-testalarmapp-c5c0b55b.koyeb.app/api/reminders");
+    const response = await fetch("https://purring-vanya-testalarmapp-513052a3.koyeb.app/api/reminders");
 
     if (response.ok) {
       const alarms = await response.json();
