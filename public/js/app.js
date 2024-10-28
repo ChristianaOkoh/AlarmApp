@@ -26,7 +26,7 @@ const saveReminderToDatabase = async (title, description, dateTimeString) => {
   };
 
   try {
-    const response = await fetch("${API_BASE_URL}/api/reminders", {
+    const response = await fetch("${API_BASE_URL}/reminders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ const saveReminderToDatabase = async (title, description, dateTimeString) => {
 // Function to load all reminders from the database and display them in the table
 const loadRemindersFromDatabase = async () => {
   try {
-    const response = await fetch("${API_BASE_URL}/api/reminders");
+    const response = await fetch("${API_BASE_URL}/reminders");
     if (response.ok) {
       const alarms = await response.json();
       const tableBody = document.getElementById("reminderTableBody");
@@ -121,7 +121,7 @@ const clearFormFields = () => {
 // Function to delete reminders from the database and the frontend
 const deleteReminder = async (reminderId, row) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/reminders/${reminderId}`, {
+    const response = await fetch(`${API_BASE_URL}/reminders/${reminderId}`, {
       method: 'DELETE',
     });
     if (response.ok) {
