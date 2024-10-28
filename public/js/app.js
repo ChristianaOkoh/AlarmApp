@@ -26,7 +26,7 @@ const saveReminderToDatabase = async (title, description, dateTimeString) => {
   };
 
   try {
-    const response = await fetch("${API_BASE_URL}/reminders", {
+    const response = await fetch(`${API_BASE_URL}/reminders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ const saveReminderToDatabase = async (title, description, dateTimeString) => {
 // Function to load all reminders from the database and display them in the table
 const loadRemindersFromDatabase = async () => {
   try {
-    const response = await fetch("${API_BASE_URL}/reminders");
+    const response = await fetch(`${API_BASE_URL}/reminders`);
     if (response.ok) {
       const alarms = await response.json();
       const tableBody = document.getElementById("reminderTableBody");
