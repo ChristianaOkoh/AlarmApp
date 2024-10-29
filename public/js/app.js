@@ -1,6 +1,6 @@
 // Request notification permission
 console.log("Testing alarm app");
-const API_BASE_URL = "https://imaginative-isobel-testalarmapp-b9675341.koyeb.app/api"
+export const API_BASE_URL = "https://imaginative-isobel-testalarmapp-b9675341.koyeb.app/api"
 
 if ("Notification" in window) {
   Notification.requestPermission().then((permission) => {
@@ -156,3 +156,5 @@ const addReminder = (title, description, dateTimeString, reminderId) => {
 
 // Load reminders from the database when the page loads
 document.addEventListener("DOMContentLoaded", loadRemindersFromDatabase);
+
+module.exports = { API_BASE_URL };
