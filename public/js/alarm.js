@@ -38,6 +38,7 @@ const scheduleNotifications = (alarms) => {
   });
 };
 
+
 // Function to load alarms from the database and display them in the table
 const loadAlarmsFromDatabase = async () => {
   try {
@@ -73,10 +74,9 @@ const loadAlarmsFromDatabase = async () => {
   }
 };
 
-// Function to initialize alarms only after the button click
 const initializeAlarms = () => {
-  loadAlarmsFromDatabase();
-  document.getElementById("startAlarms").style.display = 'none'; // Hide button after click
+  loadAlarmsFromDatabase(); // Load and schedule alarms after user interaction
+  document.getElementById("startAlarms").style.display = 'none'; // Hide button after interaction
 };
 
 document.addEventListener("DOMContentLoaded", () => {
