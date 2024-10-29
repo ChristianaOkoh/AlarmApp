@@ -12,7 +12,13 @@ const partialsPath = path.join(__dirname, "../public");
 
 const app = express();
 
-app.use(cors()); // Enable CORS for all routes
+app.use(cors({
+  origin: [
+    'https://imaginative-isobel-testalarmapp-b9675341.koyeb.app',
+  ],
+  methods: ['GET', 'POST', 'DELETE'], // Specify allowed methods
+  credentials: true // Enable if your app requires credentials like cookies
+}));
 app.set("view engine", "hbs");
 app.use(express.json());
 app.use(bodyParser.json());
