@@ -55,6 +55,7 @@ const loadRemindersFromDatabase = async () => {
         addReminder(title, description, dateTime, _id);
       });
 
+      scheduleNotifications(alarms); // Schedule any future reminders
     } else {
       console.error("Failed to load alarms:", response.statusText);
     }
