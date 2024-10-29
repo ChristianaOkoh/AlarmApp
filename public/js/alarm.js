@@ -24,6 +24,7 @@ const scheduleNotifications = (alarms) => {
 
       let timeoutId = setTimeout(() => {
         // Play alarm sound
+        console.log("Alarm sound playing now");
         document.getElementById("notificationSound").play();
 
         // Trigger browser notification
