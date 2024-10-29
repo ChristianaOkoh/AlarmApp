@@ -1,3 +1,4 @@
+import { API_BASE_URL } = require('/app.js')
 // Ask user to allow notification access
 console.log('Loading alarm system...');
 
@@ -43,7 +44,7 @@ const scheduleNotifications = (alarms) => {
 // Function to load alarms from the database and display them in the table
 const loadAlarmsFromDatabase = async () => {
   try {
-    const response = await fetch("https://imaginative-isobel-testalarmapp-b9675341.koyeb.app/api/reminders");
+    const response = await fetch(`${API_BASE_URL}/reminders`);
 
     if (response.ok) {
       const alarms = await response.json();
