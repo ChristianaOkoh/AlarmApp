@@ -24,7 +24,6 @@ const scheduleNotifications = (alarms) => {
 
       let timeoutId = setTimeout(() => {
         // Play alarm sound
-        console.log("Alarm sound playing now");
         document.getElementById("notificationSound").play();
 
         // Trigger browser notification
@@ -80,6 +79,7 @@ const initializeAlarms = () => {
   document.getElementById("startAlarms").style.display = 'none'; // Hide button after interaction
 };
 
+// Load alarms from the database when the page loads
 document.addEventListener("DOMContentLoaded", () => {
   const startButton = document.getElementById("startAlarms");
   startButton.style.display = 'block'; // Ensure button is visible when page loads
