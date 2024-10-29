@@ -13,31 +13,38 @@ if ("Notification" in window) {
 }
 
 let timeoutIds = [];
-const currentTime = new Date();
 
 // Function to check and schedule notifications for upcoming alarms
 const scheduleNotifications = (alarms) => {
+  const currentTime = new Date(); // Ensure current time is updated each time scheduleNotifications is called
   alarms.forEach((alarm) => {
     const alarmTime = new Date(alarm.dateTime);
+    console.log(`Current Time: ${currentTime}, Alarm Time: ${alarmTime}`);
+
     if (alarmTime > currentTime) {
+      console.log(`Scheduling alarm for: ${alarm.title}`);
       let timeDifference = alarmTime - currentTime;
 
       let timeoutId = setTimeout(() => {
-        // Play alarm sound
-        document.getElementById("notificationSound").play();
+        // Ensure notification permissions are granted before displaying notification
+        if (Notification.permission === "granted") {
+          // Play alarm sound
+          document.getElementById("notificationSound").play();
 
-        // Trigger browser notification
-        new Notification(alarm.title, {
-          body: alarm.description,
-          requireInteraction: true,
-        });
+          // Trigger browser notification
+          new Notification(alarm.title, {
+            body: alarm.description,
+            requireInteraction: true,
+          });
+        }
       }, timeDifference);
 
       timeoutIds.push(timeoutId);
+    } else {
+      console.log(`Alarm time for ${alarm.title} has already passed.`);
     }
   });
 };
-
 
 // Function to load alarms from the database and display them in the table
 const loadAlarmsFromDatabase = async () => {
@@ -52,6 +59,7 @@ const loadAlarmsFromDatabase = async () => {
 
       alarms.forEach((alarm) => {
         const alarmTime = new Date(alarm.dateTime);
+        const currentTime = new Date(); // Update current time before each alarm check
 
         if (alarmTime > currentTime) {
           const details = document.createElement("tr");
