@@ -1,4 +1,5 @@
-const { API_BASE_URL } = require('/app.js')
+import { API_BASE_URL } from './app.js';
+
 // Ask user to allow notification access
 console.log('Loading alarm system...');
 
